@@ -41,7 +41,7 @@ To use this file:
 This file runs Conway's Game of Life on an initial pattern of choice
 
 To use this file:
-1. Choose an initial on line 500 with your desired initial pattern. There are 3 options: 1) Glider (make_glider), 2) Blinker (make_blinker), and 3) Still (still_pattern). It is set to "make_glider" by default
+1. Set your desired initial pattern (line 500). There are 3 options: 1) Glider (make_glider), 2) Blinker (make_blinker), and 3) Still (still_pattern). It is set to "make_glider" by default
 2. Set grid size, number of generations, and rules of life as above for the core code (or leave as default)
 3. Specify the desired name and path of the data file to which data is printed in line 391
 5. Save the file
