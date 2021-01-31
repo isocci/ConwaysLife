@@ -19,7 +19,7 @@ There are some specific instructions for each file
 ## Conway's Game of Life Rules
 
 Conway's Game of Life obeys the following rules by default:
-1. A cell is born (0 -> 1) if it has 3 live neighbours. This is represented B3
+1. A cell is born (0 -> 1) if it has 3 live neighbours. This is represented by B3
 2. A cell survives (1 -> 1) if it has 2 or 3 neighbours. This is represented by S23
 3. Otherwise, a cell dies (1 -> 0) or remains dead (0 -> 0)
 
@@ -57,4 +57,3 @@ To use this file:
 3. Specify the desired name and path of the data file to which data is printed in line 391.
 5. Save the file
 6. Drag and drop the file into the SwifthForth console to run
-
