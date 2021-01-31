@@ -8,6 +8,8 @@ This repositry contains 3 files:
 2. conwayslife_test_patterns.f
 3. conwayslife_phase_transitions.f
 
+The files have only slight variations between them, but have been uploaded as different files to facilitate their use
+
 Each file can be run independently in the Forth console
 
 Each file has only been tested on SwiftForth on Windows 10
