@@ -1,12 +1,4 @@
 
-{ ---------- INSTRUCTIONS --------------------------------}
-{ Choose initial matrix: Line 463                         }
-{ Set grid size (n + 2 must be a multiple of 4): Line 423 }
-{ Set number of iterations: Line 422                      }
-{ Set rules: Lines 501, 504 (life), 509 (death)           }
-{ Set path to data file and name data file: Line 386      }
-
-
 { ---------- GLOBAL CONSTANTS AND VARIABLES ---------------------------------------------------------------------- }
 
 
