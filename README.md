@@ -57,4 +57,4 @@ To use this file:
 3. Specify the desired name and path of the data file to which data is printed in line 391.
 5. Save the file
 6. Drag and drop the file into the SwifthForth console to run
-rth
+
