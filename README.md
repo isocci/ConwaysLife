@@ -29,8 +29,8 @@ Conway's Game of Life obeys the following rules by default:
 The file runs Conway's Game of Life on an initial matrix of random 1s and 0s
 
 To use this file:
-1. Set grid size by setting n on line 422 (22 by default). Note that n+2 must be a multiple of 4 for the visualisation to work correctly
-2. Set number of generations to be run by setting k on line 421 (10 by default)
+1. Set grid size by setting n on line 422 (126 by default). Note that n+2 must be a multiple of 4 for the visualisation to work correctly
+2. Set number of generations to be run by setting k on line 421 (30 by default)
 3. Modify rules of life (begins line 501) by modifying line 504 (rules for death) and line 509 (rules for life). The rules are currently set to default Conway's Game of Life rules (B3, S23). For example, to change to B4, S12, change 2 and 3 in line 504 to 1 and 2 respectively, and 3 in line 509 to 4
 4. Specify the desired name and path of the data file to which data is printed in line 391
 5. Save the file
