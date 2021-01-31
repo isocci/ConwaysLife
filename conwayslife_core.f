@@ -418,8 +418,8 @@ variable life_data                                                        { Crea
 { ---------- Setting constants ------------------------------------------------------------------------------------ }
 
 
-10 constant k_frames		                                        { number of iterations/generations for our simulation }
-22 constant n 				           { Life is simulated on a nxn grid, with a frame of 0s making an absorbing boundary }
+30 constant k_frames		                                        { number of iterations/generations for our simulation }
+126 constant n 				           { Life is simulated on a nxn grid, with a frame of 0s making an absorbing boundary }
 n n * constant n_cells
 2 n + constant m                                { mxm is the total size of our matrix (including boundary), m = n+2 }
 m m * constant tot_cells                                      { m must be a multiple of 4 for correct visualisation }
