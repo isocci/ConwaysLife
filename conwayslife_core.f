@@ -388,13 +388,13 @@ bmp-APP-CLASS                   { Call class for displaying bmp's in a child win
 variable life_data                                                        { Create Variable to hold file id handle }
 
 : make-file                                                               { Create a test file to read / write to  }
-  s" C:\Users\life\Life_Data.dat" r/w create-file drop           { Create the file to path                }
+  s" C:\life\Life_Data.dat" r/w create-file drop           { Create the file to path                }
   life_data !                                                             { Store file handle for later use        }
 ;
 
 
 : open-file                                                               { Open the file for read/write access    }
-  s" C:\Users\life\Life_Data.dat" r/w open-file drop             { Not needed if we have just created     }
+  s" C:\life\Life_Data.dat" r/w open-file drop             { Not needed if we have just created     }
   life_data !                                                             { file.                                  }
 ;
 
