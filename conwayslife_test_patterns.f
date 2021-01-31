@@ -40,6 +40,7 @@ bmp-size   @ 3 * 54 +       bmp-length !                { Find length of bmp in 
 
 { ----------  RANDOM NUMBER -------------------------------------------------------------------------------------- }
 
+
 CREATE SEED  123475689 ,
 
 : Rnd ( n -- rnd )                               { Returns single random number less than n }
@@ -51,6 +52,7 @@ CREATE SEED  123475689 ,
    ELSE - 2147483647 +
    THEN  DUP R> !
    SWAP MOD ;
+
 
 { ---------- WORDS TO CREATE A BMP FILE IN MEMORY  ---------------------------------------- }
 
@@ -139,6 +141,7 @@ CREATE SEED  123475689 ,
 
 Function: SetDIBitsToDevice ( a b c d e f g h i j k l -- res )
 
+
 : MEM-bmp ( addr -- )                            { Prints bmp starting at address to screen}
    [OBJECTS BITMAP MAKES BM OBJECTS]
    BM bmp!
@@ -148,7 +151,6 @@ Function: SetDIBitsToDevice ( a b c d e f g h i j k l -- res )
    BM Height @ BM Data
    BM InfoHeader DIB_RGB_COLORS SetDIBitsToDevice DROP  { Windows API calls                }
    HWND R> ( hDC ) ReleaseDC DROP ;
-
 
 
 { ---------------------- bmp Display Window Class and Application ------------------------ }
@@ -379,18 +381,20 @@ bmp-APP-CLASS                   { Call class for displaying bmp's in a child win
 
 { ---------- LIFE ------------------------------------------------------------------------------------------------- }
 
-{ ---------- print to file variables and words --------------------------------------------------- }
+
+{ ---------- PRINT TO FILE VARIABLES AND WORDS ------------------------------------------------------------------- }
+
 
 variable life_data                                                        { Create Variable to hold file id handle }
 
 : make-file                                                               { Create a test file to read / write to  }
-  s" C:\life\Life_Data.dat" r/w create-file drop           { Create the file to path                }
+  s" C:\Users\tahse\Desktop\Life_Data.dat" r/w create-file drop           { Create the file to path                }
   life_data !                                                             { Store file handle for later use        }
 ;
 
 
 : open-file                                                               { Open the file for read/write access    }
-  s" C:\life\Life_Data.dat" r/w open-file drop             { Not needed if we have just created     }
+  s" C:\Users\tahse\Desktop\Life_Data.dat" r/w open-file drop             { Not needed if we have just created     }
   life_data !                                                             { file.                                  }
 ;
 
@@ -400,24 +404,29 @@ variable life_data                                                        { Crea
   close-file drop
 ;
 
+
 : Write-blank-data                                                        { Write an empty line to the file        }
   s"  " life_data @ write-line drop
 ;
+
 
 : Write-line-break                                                        { Write a line break to the file         }
   s" " life_data @ write-line drop
 ;
 
+
 { ---------- Setting constants ------------------------------------------------------------------------------------ }
 
-30 constant k_frames		                   { number of iterations/generations for our simulation }
-62 constant n 				           { Life is simulated on a nxn grid, with a frame of 0s making an absorbing boundary }
+
+10 constant k_frames		                                        { number of iterations/generations for our simulation }
+22 constant n 				           { Life is simulated on a nxn grid, with a frame of 0s making an absorbing boundary }
 n n * constant n_cells
 2 n + constant m                                { mxm is the total size of our matrix (including boundary), m = n+2 }
-m m * constant tot_cells                        { m must be a multiple of 4 for correct visualisation }
+m m * constant tot_cells                                      { m must be a multiple of 4 for correct visualisation }
 
 
 { ---------- Words to make arrays for the simulation -------------------------------------------------------------- }
+
 
 : make_array_ran          { makes a matrix initialised with random 1s and 0s in the middle, 0s along the boundaries }
 	tot_cells allocate drop
@@ -431,6 +440,7 @@ m m * constant tot_cells                        { m must be a multiple of 4 for 
 	m +loop
 	constant
 ;
+
 
 : show_array 		 	{ prints formatted array to console }
 	tot_cells 0 do
@@ -447,46 +457,56 @@ m m * constant tot_cells                        { m must be a multiple of 4 for 
 	tot_cells 0 fill constant
 ;
 
-: make_glider 
+
+{ ---------- Initial Pattern Test Options ---------- }
+
+
+: make_glider
 	tot_cells 2 / m 2 / + +
-	dup 1 + 1 swap c!  { R } 
-	dup 1 - 1 swap c!  { L } 
-	dup m + 1 swap c!   { B } 
-	dup m - 1 + 1 swap c!  { TR } 
+	dup 1 + 1 swap c!      { R }
+	dup 1 - 1 swap c!      { L }
+	dup m + 1 swap c!      { B }
+	dup m - 1 + 1 swap c!  { TR }
 	dup m + 1 + 1 swap c!  { BR }
+  drop
 ;
 
-: make_blinker 
+
+: make_blinker
 	tot_cells 2 / m 2 / + +
 	dup 1 swap c!      { C }
-	dup 1 + 1 swap c!  { R } 
-	dup 1 - 1 swap c!  { L } 
+	dup 1 + 1 swap c!  { R }
+	dup 1 - 1 swap c!  { L }
 	dup 2 + 1 swap c!  { 2R }
 	dup 2 - 1 swap c!  { 2L }
+  drop
 ;
 
-: make_still_pattern 
+
+: make_still_pattern
 	tot_cells 2 / m 2 / + +
-	dup 1 + 1 swap c!  { R } 
-	dup 1 - 1 swap c!  { L } 
-	dup m + 1 swap c!   { B } 
-	dup m - 1 swap c!   { T } 
+	dup 1 + 1 swap c!   { R }
+	dup 1 - 1 swap c!   { L }
+	dup m + 1 swap c!   { B }
+	dup m - 1 swap c!   { T }
+  drop
 ;
+
 
 { ---------- Creating the matrices and variables ------------------------------------------------------------------------------------------ }
 
-make_array life_matrix       		{ creates initial main life matrix }
-life_matrix make_glider			{ <---- edit here }
+
+make_array life_matrix              { creates initial main life matrix of 0 }
+life_matrix make_glider             { <--- choose initial pattern }
 make_array last_state			          { created dummy matrix to store a copy of the last state of main life matrix }
-variable count				          { variable to loop through life_matrix when assigning values to the pixels in set-bmp-data }
-variable sum			                  { variable to store the sum of neighbouring cells, used in neigh_sum and update_life }
-variable current_cell		           	  { variable to loop through life_matrix cells to update them }
-variable last_state_current_cell	          { variable to loop through last_state to determine the sum of neighbouring cells in the last state }
-
-
+variable count				              { variable to loop through life_matrix when assigning values to the pixels in set-bmp-data }
+variable sum			                	{ variable to store the sum of neighbouring cells, used in neigh_sum and update_life }
+variable current_cell		           	{ variable to loop through life_matrix cells to update them }
+variable last_state_current_cell	  { variable to loop through last_state to determine the sum of neighbouring cells in the last state }
 
 
 { ---------- Words to run the core of LIFE ------------------------------------------------------------------------------------------------ }
+
 
 : neigh_sum			{ computing the sum of neighbouring cells to be used in update_life }
 
@@ -533,8 +553,8 @@ variable last_state_current_cell	          { variable to loop through last_state
 ;
 
 
-
 { ---------- Words to display/print the configurations -------------------------- }
+
 
 : set-bmp-data  ( addr -- )                { Set bmp to the values of life_matrix }
   update_life
@@ -549,6 +569,7 @@ variable last_state_current_cell	          { variable to loop through last_state
   3 +loop
 ;
 
+
 : print_matrix			                       { Printing LIFE matrices to data file }
 	tot_cells 0 do
 		dup
@@ -557,6 +578,7 @@ variable last_state_current_cell	          { variable to loop through last_state
 	loop
 	Write-line-break
 ;
+
 
 : print_mnk			                          { printing constants m n k to data file }
 	n (.) life_data @ write-file drop
@@ -568,7 +590,9 @@ variable last_state_current_cell	          { variable to loop through last_state
 	Write-line-break
 ;
 
+
 { ---------- MAIN word ---------------------------------------------------------------- }
+
 
 : main
 make-file
@@ -577,19 +601,23 @@ New-bmp-Window-stretch
 bmp-window-handle !
 k_frames 0 do dup
 	0 count !
+  life_matrix
+  print_matrix
 	bmp-address @ set-bmp-data
 	bmp-address @ bmp-to-screen-stretch
-  life_matrix
-	print_matrix
 	1000 ms
   drop drop
 loop
 bmp-window-handle @ DestroyWindow drop  { Kill of display window                       }
 close-file
-cr cr ." Test ascii data file written to selected directory " cr cr
+cr ." Test ascii data file written to specified path "
+cr ." If you are unable to locate file, please check specified path"
+cr
 ;
 
+
 { -------- setting up memory and calling the main function ---------- }
+
 
 m bmp-x-size !    { Create a blank mxm .bmp in memory    }
 m bmp-y-size !
